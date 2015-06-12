@@ -119,7 +119,23 @@ nnoremap <Down> :resize +5<CR>
 nnoremap <Up> :resize -5<CR>
 
 nnoremap <S-x> <C-a>
-"
+
+" Toggle colorcolumn 
+set colorcolumn=81
+let s:color_column_old = 0
+
+function! s:ToggleColorColumn()
+    if s:color_column_old == 0
+        let s:color_column_old = &colorcolumn
+        windo let &colorcolumn = 0
+    else
+        windo let &colorcolumn=s:color_column_old
+        let s:color_column_old = 0
+    endif
+endfunction
+
+nnoremap <silent> <F3> :call <SID>ToggleColorColumn()<cr>
+
 " Folding
 set foldlevelstart=0
 nnoremap <Space> za
@@ -270,6 +286,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_php_checkers = ["php", "phpcs", "phpmd"]
 
 " Tmuxline
 let g:tmuxline_theme = 'airline_insert'
